@@ -39,7 +39,8 @@ int main(void)
 			printf("#cisfun$ ");
 			nread = getline(&line, &len, stdin);
 			stop = nread;
-			line[strlen(line) - 1] = '\0';
+			if (line[strlen(line) - 1] == 10)
+				line[strlen(line) - 1] = '\0';
 			argv[0] = line;
 			argv[1] = NULL;
 			if (execve(argv[0], argv, environ) == -1)
