@@ -6,5 +6,11 @@
 extern char **environ;
 #endif /* _ENVIRON_ */
 
+#ifndef _STRLEN_
+#define _STRLEN_
+int _strlen(char *s);
+#endif /* _STRLEN_ */
+
+
 
 #endif /* _MAIN_H_ */
