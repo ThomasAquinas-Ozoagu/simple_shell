@@ -11,6 +11,11 @@ extern char **environ;
 int _strlen(char *s);
 #endif /* _STRLEN_ */
 
+#ifndef __STRCMP_
+#define  __STRCMP_
+int _strcmp(char *s1, char *s2);
+#endif /*  __STRCMP_ */
+
 #ifndef _PUTCHAR_
 #define _PUTCHAR_
 int _putchar(char c);

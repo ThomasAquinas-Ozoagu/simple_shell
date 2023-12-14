@@ -7,28 +7,32 @@
 
 /**
  * main - a UNIX command line interpreter
+ * @argc: Argument count
+ * @argv: Argument variables
+ * @envp: Environmental variables
  * Return: - 0 if ok
  */
 
-int main(void)
+int main(int argc, char *argv[], char *envp[])
 {
 	size_t len = 0;
-	ssize_t nread, stop;
-	char **argv, *line = NULL;
+	ssize_t nread;
+	char *line = NULL;
 	int k = 0, status;
 	pid_t pid;
 
-	stop = 0;
-	while (stop != -1)
+	while (argc && _printf("#cisfun$ ") &&
+		(nread = getline(&line, &len, stdin)) != -1)
 	{
+		if (line[0] == 'e' && line[1] == 'x' && line[2] == 'i'
+		    && line[3] == 't' && line[4] == 10)
+			exit(0);
+
 		pid = fork();
 		if (pid == -1)
 			_printf("fork error");
 		if (pid == 0)
 		{
-			_printf("#cisfun$ ");
-			nread = getline(&line, &len, stdin);
-			stop = nread;
 			argv = _strtok(line, ' ');
 			for (k = 0; argv[k]; k++)
 			{
@@ -37,7 +41,8 @@ int main(void)
 			}
 			if (!argv)
 				_printf("_strtok failed");
-			if (execve(argv[0], argv, environ) == -1)
+
+			if (execve(argv[0], argv, envp) == -1)
 				perror("");
 		}
 		else
