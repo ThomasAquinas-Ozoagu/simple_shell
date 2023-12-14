@@ -7,7 +7,7 @@
 
 
 /**
- * main - a UNIX command line interpreter.
+ * main - a UNIX command line interpreter
  * Return: - 0 if ok
  */
 
@@ -16,8 +16,9 @@ int main(void)
 	size_t len = 0;
 	ssize_t nread, stop;
 	char **argv, *line = NULL;
-	int i, status;
+	int i, k, status;
 	pid_t pid;
+
 
 	argv = malloc(40);
 	if (!argv)
@@ -28,27 +29,38 @@ int main(void)
 		if (!argv)
 			return (-1);
 		argv[i] = " ";
-	}
+		}
+
 	while (stop != -1)
 	{
 		pid = fork();
 		if (pid == -1)
-			perror("Error:");
+			_printf("fork error");
 		if (pid == 0)
 		{
-			printf("#cisfun$ ");
+			_printf("#cisfun$ ");
 			nread = getline(&line, &len, stdin);
 			stop = nread;
-			if (line[_strlen(line) - 1] == 10)
-				line[_strlen(line) - 1] = '\0';
-			argv[0] = line;
-			argv[1] = NULL;
+
+			argv = _strtok(line, ' ');
+
+			for (k = 0; argv[k]; k++)
+			{
+				if (argv[k][_strlen(argv[k]) - 1] == 10)
+					argv[k][_strlen(argv[k]) - 1] = '\0';
+			}
+			if (!argv)
+				_printf("_strtok failed");
+
 			if (execve(argv[0], argv, environ) == -1)
-				perror("Error:");
+				perror("");
 		}
 		else
 			wait(&status);
 	}
+/*	free(argv[j]); */
 	free(argv);
+
+
 	return (0);
 }
