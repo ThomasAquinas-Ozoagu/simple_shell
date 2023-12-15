@@ -34,7 +34,7 @@ int main(int argc, char *argv[], char *envp[])
 			return (-1);
 		comm[i] = " ";
 	}
-	while (argc && _printf("#cisfun$ ") &&
+	while (_printf("#cisfun$ ") &&
 		(nread = getline(&line, &len, stdin)) != -1)
 	{
 		if (line[_strlen(line) - 1] == 10)
