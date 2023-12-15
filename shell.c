@@ -15,7 +15,7 @@ int main(void)
 {
 	size_t len = 0;
 	ssize_t nread/*, stop*/;
-	char **argv, *line = NULL/*, *prompt = "PROMPT: "*/;
+	char **argv, *line = NULL, *prm = "";
 	int i, j, status;
 	pid_t pid;
 
@@ -30,11 +30,11 @@ int main(void)
 		argv[i] = " ";
 	}
 
-	/*		_printf("#cisfun$ "); */
-/*	if (isatty(STDIN_FILENO))*/ /* Check shell mode */
-/*		prompt = "#cisfun$ "; */
 
-	while (_printf("#notfun$ ") && ((nread = getline(&line, &len, stdin)) != -1))
+	if (isatty(STDIN_FILENO)) /* Check shell mode */
+		prm = "#cisfun$ ";
+
+	while ((_printf("%s", prm) != -1) && ((nread = getline(&line, &len, stdin)) != -1))
 	{
 		if (line[_strlen(line) - 1] == 10)
 			line[_strlen(line) - 1] = '\0';
