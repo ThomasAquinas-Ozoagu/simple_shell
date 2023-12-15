@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <string.h>
+/* #include <string.h> */
 
 /**
  * main - a UNIX command line interpreter.
@@ -14,41 +14,48 @@
 int main(void)
 {
 	size_t len = 0;
-	ssize_t nread, stop;
-	char **argv, *line = NULL;
-	int i, status;
+	ssize_t nread/*, stop*/;
+	char **argv, *line = NULL/*, *prompt = "PROMPT: "*/;
+	int i, j, status;
 	pid_t pid;
 
 	argv = malloc(40);
 	if (!argv)
 		return (-1);
-	for (i = 0; i < 5; i++)
+	for (i = 0; i < 2; i++)
 	{
 		argv[i] = malloc(50 * sizeof(char));
 		if (!argv)
 			return (-1);
 		argv[i] = " ";
 	}
-	while (stop != -1)
+
+	/*		_printf("#cisfun$ "); */
+/*	if (isatty(STDIN_FILENO))*/ /* Check shell mode */
+/*		prompt = "#cisfun$ "; */
+
+	while (_printf("#notfun$ ") && ((nread = getline(&line, &len, stdin)) != -1))
 	{
+		if (line[_strlen(line) - 1] == 10)
+			line[_strlen(line) - 1] = '\0';
+		argv[0] = line;
+		argv[1] = NULL;
+
 		pid = fork();
 		if (pid == -1)
 			perror("Error:");
 		if (pid == 0)
 		{
-			printf("#cisfun$ ");
-			nread = getline(&line, &len, stdin);
-			stop = nread;
-			if (line[strlen(line) - 1] == 10)
-				line[strlen(line) - 1] = '\0';
-			argv[0] = line;
-			argv[1] = NULL;
-			if (execve(argv[0], argv, environ) == -1)
-				perror("Error:");
+			if (execve(argv[0], argv, NULL) == -1)
+				perror("./shell");
 		}
 		else
+		{
+			for (j = 0; j < 2; j++)
+				free(argv[j]);
+			free(argv);
 			wait(&status);
+		}
 	}
-	free(argv);
 	return (0);
 }
