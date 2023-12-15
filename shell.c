@@ -4,53 +4,51 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <string.h>
 
 /**
- * main - a UNIX command line interpreter
- * @argc: Argument count
- * @argv: Argument variables
- * @envp: Environmental variables
+ * main - a UNIX command line interpreter.
  * Return: - 0 if ok
  */
 
-int main(int argc, char *argv[], char *envp[])
+int main(void)
 {
 	size_t len = 0;
-	ssize_t nread;
-	char *line = NULL, **comm;
-	int /*k = 0,*/ status;
+	ssize_t nread, stop;
+	char **argv, *line = NULL;
+	int i, status;
 	pid_t pid;
-	int i;
 
-	if (argc != 1)
-		_printf("usage: %s", argv[0]);
-	comm = malloc(2 * sizeof(char *));
-	if (!comm)
+	argv = malloc(40);
+	if (!argv)
 		return (-1);
-	for (i = 0; i < 2; i++)
+	for (i = 0; i < 5; i++)
 	{
-		comm[i] = malloc(50 * sizeof(char));
-		if (!comm[i])
+		argv[i] = malloc(50 * sizeof(char));
+		if (!argv)
 			return (-1);
-		comm[i] = " ";
+		argv[i] = " ";
 	}
-	while (_printf("#cisfun$ ") &&
-		(nread = getline(&line, &len, stdin)) != -1)
+	while (stop != -1)
 	{
-		if (line[_strlen(line) - 1] == 10)
-			line[_strlen(line) - 1] = '\0';
 		pid = fork();
 		if (pid == -1)
-			_printf("fork error");
+			perror("Error:");
 		if (pid == 0)
 		{
-			comm[0] = line;
-			comm[1] = NULL;
-			if (execve(comm[0], comm, envp) == -1)
-				perror("./shell");
+			printf("#cisfun$ ");
+			nread = getline(&line, &len, stdin);
+			stop = nread;
+			if (line[strlen(line) - 1] == 10)
+				line[strlen(line) - 1] = '\0';
+			argv[0] = line;
+			argv[1] = NULL;
+			if (execve(argv[0], argv, environ) == -1)
+				perror("Error:");
 		}
 		else
 			wait(&status);
 	}
+	free(argv);
 	return (0);
 }
