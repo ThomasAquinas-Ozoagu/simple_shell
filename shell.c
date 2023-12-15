@@ -16,13 +16,13 @@ int main(void)
 	size_t len = 0;
 	ssize_t nread, stop;
 	char **argv, *line = NULL;
-	int i, status;
+	int i, j, status, vars = 2;
 	pid_t pid;
 
 	argv = malloc(40);
 	if (!argv)
 		return (-1);
-	for (i = 0; i < 5; i++)
+	for (i = 0; i < vars; i++)
 	{
 		argv[i] = malloc(50 * sizeof(char));
 		if (!argv)
@@ -48,11 +48,13 @@ int main(void)
 			argv[0] = line;
 			argv[1] = NULL;
 			if (execve(argv[0], argv, environ) == -1)
-				perror("Error:");
+				perror("./shell");
 		}
 		else
 			wait(&status);
 	}
+	for (j = 0; j < vars; j++)
+		free(argv[j]);
 	free(argv);
 	return (0);
 }
