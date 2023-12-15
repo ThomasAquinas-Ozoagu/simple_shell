@@ -1,10 +1,27 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-#ifndef _ENVIRON_
-#define _ENVIRON_
-extern char **environ;
-#endif /* _ENVIRON_ */
+#ifndef _STDIO_H_
+#define _STDIO_H_
+#include <stdio.h>
+#endif /* _STDIO_H_ */
+
+#ifndef _STDLIB_H_
+#define _STDLIB_H_
+#include <stdlib.h>
+#endif /* _STDLIB_H_ */
+
+#ifndef _UNISTD_H_
+#define _UNISTD_H_
+#include <unistd.h>
+#endif /* _UNISTD_H_ */
+
+/*
+ *#ifndef _ENVIRON_
+ *#define _ENVIRON_
+ *extern char **environ;
+ *#endif *//* _ENVIRON_
+*/
 
 #ifndef _STRLEN_
 #define _STRLEN_
