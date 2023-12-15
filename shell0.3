@@ -17,37 +17,33 @@ int main(int argc, char *argv[], char *envp[])
 {
 	size_t len = 0;
 	ssize_t nread;
-	char *line = NULL, **comm;
-	int /*k = 0,*/ status;
+	char *line = NULL;
+	int k = 0, status;
 	pid_t pid;
-	int i;
 
-	if (argc != 1)
-		_printf("usage: %s", argv[0]);
-	comm = malloc(2 * sizeof(char *));
-	if (!comm)
-		return (-1);
-	for (i = 0; i < 2; i++)
-	{
-		comm[i] = malloc(50 * sizeof(char));
-		if (!comm[i])
-			return (-1);
-		comm[i] = " ";
-	}
 	while (argc && _printf("#cisfun$ ") &&
 		(nread = getline(&line, &len, stdin)) != -1)
 	{
-		if (line[_strlen(line) - 1] == 10)
-			line[_strlen(line) - 1] = '\0';
+		if (line[0] == 'e' && line[1] == 'x' && line[2] == 'i'
+		    && line[3] == 't' && line[4] == 10)
+			exit(0);
+
 		pid = fork();
 		if (pid == -1)
 			_printf("fork error");
 		if (pid == 0)
 		{
-			comm[0] = line;
-			comm[1] = NULL;
-			if (execve(comm[0], comm, envp) == -1)
-				perror("./shell");
+			argv = _strtok(line, ' ');
+			for (k = 0; argv[k]; k++)
+			{
+				if (argv[k][_strlen(argv[k]) - 1] == 10)
+					argv[k][_strlen(argv[k]) - 1] = '\0';
+			}
+			if (!argv)
+				_printf("_strtok failed");
+
+			if (execve(argv[0], argv, envp) == -1)
+				perror("");
 		}
 		else
 			wait(&status);
