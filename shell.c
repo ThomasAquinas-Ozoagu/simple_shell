@@ -29,12 +29,8 @@ int main(void)
 			return (-1);
 		argv[i] = " ";
 	}
-
-
-/*	if (isatty(STDIN_FILENO)) *//* Check shell mode */
-/*		prm = "#cisfun$ "; */
-
-	while (_printf("#cisfun$ ") && ((nread = getline(&line, &len, stdin)) != -1))
+	while (_printf("#cisfun$ ") &&
+	       ((nread = getline(&line, &len, stdin)) != -1))
 	{
 		if (line[_strlen(line) - 1] == 10)
 			line[_strlen(line) - 1] = '\0';
@@ -50,12 +46,10 @@ int main(void)
 				perror("./shell");
 		}
 		else
-		{
-			for (j = 0; j < 2; j++)
-				free(argv[j]);
-			free(argv);
 			wait(&status);
-		}
 	}
-	return (0);
+	for (j = 0; j < 2; j++)
+		free(argv[j]);
+	free(argv);
+			return (0);
 }
