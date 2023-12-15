@@ -14,7 +14,7 @@
 int main(void)
 {
 	size_t len = 0;
-	ssize_t nread, stop;
+	ssize_t nread;
 	char **argv, *line = NULL;
 	int i, status;
 	pid_t pid;
@@ -29,24 +29,25 @@ int main(void)
 			return (-1);
 		argv[i] = " ";
 	}
-	while (stop != -1)
+	while (nread != -1)
 	{
+		printf("#cisfun$ ");
+		nread = getline(&line, &len, stdin);
+		if (nread == -1)
+			return(-1);
+		if (line[strlen(line) - 1] == 10)
+			line[strlen(line) - 1] = '\0';
+		else
+		{
+			line[strlen(line)] = '\0';
+		}
+		argv[0] = line;
+		argv[1] = NULL;
 		pid = fork();
 		if (pid == -1)
 			perror("Error:");
 		if (pid == 0)
 		{
-			printf("#cisfun$ ");
-			nread = getline(&line, &len, stdin);
-			stop = nread;
-			if (line[strlen(line) - 1] == 10)
-				line[strlen(line) - 1] = '\0';
-			else
-			{
-				line[strlen(line)] = '\0';
-			}
-			argv[0] = line;
-			argv[1] = NULL;
 			if (execve(argv[0], argv, environ) == -1)
 				perror("Error:");
 		}
