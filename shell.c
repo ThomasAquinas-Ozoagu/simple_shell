@@ -7,27 +7,21 @@
 
 /**
  * main - a UNIX command line interpreter.
+ * @argc: argument count
+ * @argv: argument variables
+ * @envp: Environment variables
  * Return: - 0 if ok
  */
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	size_t len = 0;
 	ssize_t nread = 0;
-	char **argv, *line = NULL;
-	int i, j, status, vars = 2;
+	char *line = NULL;
+	int j, status, vars = 2;
 	pid_t pid;
 
-	argv = malloc(40);
-	if (!argv)
-		return (-1);
-	for (i = 0; i < vars; i++)
-	{
-		argv[i] = malloc(50 * sizeof(char));
-		if (!argv)
-			return (-1);
-		argv[i] = " ";
-	}
+	(void)argc;
 	while (nread != -1)
 	{
 		pid = fork();
@@ -37,13 +31,18 @@ int main(void)
 		{
 			printf("#cisfun$ ");
 			nread = getline(&line, &len, stdin);
-			if (line[_strlen(line) - 1] == 10)
-				line[_strlen(line) - 1] = '\0';
-			else
-				line[_strlen(line)] = '\0';
-			argv[0] = line, argv[1] = NULL;
-			if (execve(argv[0], argv, environ) == -1)
-				perror("./shell");
+			if (line[nread - 1] == 10)
+				line[nread - 1] = '\0';
+/* Allocate space */
+			argv = malloc(2 * sizeof(char *));
+			argv[0] = malloc(nread * sizeof(char));
+			argv[1] = malloc(sizeof(char));
+			if ((!argv) || (!argv[0]) || (!argv[1]))
+				return (-1);
+			argv = _strtok(line, ' ');
+/* Execute program */
+			if (execve(argv[0], argv, envp) == -1)
+				perror("Error:");
 		}
 		else
 			wait(&status);
