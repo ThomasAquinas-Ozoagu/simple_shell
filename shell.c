@@ -43,7 +43,7 @@ int main(void)
 				line[_strlen(line)] = '\0';
 			argv[0] = line, argv[1] = NULL;
 			if (execve(argv[0], argv, environ) == -1)
-				perror("Error:");
+				perror("./shell");
 		}
 		else
 			wait(&status);
