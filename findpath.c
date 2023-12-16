@@ -43,7 +43,7 @@ char *findpath(char *command, char **env)
 		free(addslash);
 		if (stat(filename, &st) == 0)
 		{
-			return (filename);
+			return (_strcat(filename, "\0"));
 		}
 	}
 
