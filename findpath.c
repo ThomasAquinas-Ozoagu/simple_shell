@@ -33,13 +33,18 @@ char *findpath(char *command, char **env)
 	}
 	allpath = _strtok(env[j], '=');
 	onlyvals = _strtok(allpath[1], ':');
+	free(allpath);
 
 	for (m = 0; onlyvals[m]; m++)
 	{
 		addslash = _strcat(onlyvals[m], "/");
+/*		free(onlyvals); */
 		filename = _strcat(addslash, command);
+		free(addslash);
 		if (stat(filename, &st) == 0)
+		{
 			return (filename);
+		}
 	}
 
 	return (NULL);
