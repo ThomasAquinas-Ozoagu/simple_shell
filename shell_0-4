@@ -21,8 +21,10 @@ int main(int argc, char *argv[], char *envp[])
 	while (argc && _printf(":) ") &&
 		(nread = getline(&line, &len, stdin)) != -1)
 	{
+		if (line[0] == 'e' && line[1] == 'x' && line[2] == 'i'
+		    && line[3] == 't' && line[4] == 10)
+			exit(0);
 		argv = _strtok(line, ' ');
-
 		for (k = 0; argv[k]; k++)
 		{
 			if (argv[k][_strlen(argv[k]) - 1] == 10)
