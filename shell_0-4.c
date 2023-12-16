@@ -23,7 +23,9 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		if (line[0] == 'e' && line[1] == 'x' && line[2] == 'i'
 		    && line[3] == 't' && line[4] == 10)
+		{
 			exit(0);
+		}
 		argv = _strtok(line, ' ');
 		for (k = 0; argv[k]; k++)
 		{
