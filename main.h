@@ -16,6 +16,10 @@
 #include <unistd.h>
 #endif /* _UNISTD_H_ */
 
+#ifndef _LIMITS_H_
+#define _LIMITS_H_
+#include <limits.h>
+#endif /* _LIMITS_H_ */
 /*
  *#ifndef _ENVIRON_
  *#define _ENVIRON_
@@ -107,5 +111,22 @@ int store_char(char, char *, int *);
 #define __STRTOK_
 char **_strtok(char *, char);
 #endif /* __STRTOK_ */
+
+#ifndef _FINDPATH_
+#define _FINDPATH_
+char *findpath(char *, char **);
+#endif /* _FINDPATH_ */
+
+#ifndef __STRCAT_
+#define __STRCAT_
+char *_strcat(char *dest, char *src);
+#endif /* __STRCAT_ */
+
+#ifndef _FINDCHAR_
+#define _FINDCHAR_
+int findchar(char *, char);
+#endif /* _FINDCHAR_ */
+
+
 
 #endif /* _MAIN_H_ */

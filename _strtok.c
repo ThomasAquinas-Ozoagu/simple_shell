@@ -1,5 +1,5 @@
 #include "main.h"
-#include <stdlib.h>
+
 
 /**
  * _strtok - splits a string into a array of strings using a delimiter
@@ -26,7 +26,7 @@ char **_strtok(char *raw, char delim)
 	}
 	for (m = 0; m < (delimiters + 2); m++)
 	{
-		argv[m] = malloc(50 * sizeof(char));
+		argv[m] = malloc(PATH_MAX * sizeof(char));
 		if (!argv[m])
 			_printf("malloc 2 error");
 	} /* assign strings to members of array */
