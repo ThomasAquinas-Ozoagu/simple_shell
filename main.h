@@ -127,6 +127,10 @@ char *_strcat(char *dest, char *src);
 int findchar(char *, char);
 #endif /* _FINDCHAR_ */
 
+#ifndef __GETLINE_
+#define __GETLINE_
+ssize_t _getline(char *lineptr, size_t n, FILE stream);
+#endif /* __GETLINE_ */
 
 
 #endif /* _MAIN_H_ */

@@ -1,0 +1,47 @@
+#include "main.h"
+#include <sys/types.h>
+
+/**
+ * _getline - reads an entire line from standard input
+ *
+ * @blineptr: temporaly storage for the read line
+ * @n: number of bytes to read
+ * @steam: The source location
+ * Return: number of bytes read
+ */
+
+ssize_t _getline(char *lineptr, size_t n, FILE stream)
+{
+
+	static char buf[SSIZE_MAX];
+	static size_t nbytes = sizeof(buf);
+	static ssize_t bytes_read, total_read;
+	static int bufsize = 1024;
+/*	int newsize; */
+	(void) n;
+	(void) stream;
+	lineptr = malloc(bufsize * sizeof(char));
+	if (!lineptr)
+	{
+		perror("Malloc Error");
+		return (-1);
+	}
+	while (bytes_read > 0)
+	{
+		bytes_read = read(STDIN_FILENO, buf, nbytes);
+		_strcat(lineptr, buf);
+		total_read += bytes_read;
+/*
+ *		if (total_read > newsize)
+ *		{
+ *			newsize += bufsize;
+ *			if (realloc(lineptr, newsize) != NULL)
+ *				perror("realloc error:");
+ *
+ *	}
+ */
+	}
+	lineptr[total_read] = '\0';
+
+	return (total_read);
+}
